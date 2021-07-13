@@ -1,8 +1,8 @@
 const express = require('express')
-const app = express()
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 require('dotenv/config')
+require('./config/connection')
+const app = express()
 
 app.use(express.json());
 
@@ -10,17 +10,10 @@ app.use(express.json());
 const postsRoute = require('./routes/post')
 app.use('/posts', postsRoute)
 
-//Route
+//Default Route
 app.get('/', (req, res) => {
     res.send('Home')
 })
-
-// Connect to MongoDb
-mongoose.connect(
-    process.env.DB_CONNECTION,
-    {useNewUrlParser: true},    
-    () => console.log('Connect DB')
-)
 
 // Listening to the server
 app.listen(3000)

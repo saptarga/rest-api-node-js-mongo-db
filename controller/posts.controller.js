@@ -1,21 +1,7 @@
-const { response } = require('express')
-const express = require('express')
-const router = express.Router()
+const Post = require('../models/posts.model')
 const { body, validationResult } = require('express-validator')
-const Post = require('../models/Post')
 
-// get all posts
-router.get('/', async (req,res) => {
-    try{
-        const post = await Post.find()
-        res.status(200).json({status: '200', result: post})
-    } catch(err) {
-        res.status(400).json({status: '400', result: [], message: err})
-    }
-})
-
-// add new post
-router.post('/', body('email').isEmail(), async (req, res) => {
+exports.create = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -34,10 +20,18 @@ router.post('/', body('email').isEmail(), async (req, res) => {
     } catch (err) {
         res.status(400).json({status: '400', result: [], message: err})
     }
-})
+}
 
-//get a specific posts 
-router.get('/:postId', async (req,res) => {
+exports.findAll = async (req, res) => {
+    try{
+        const post = await Post.find()
+        res.status(200).json({status: '200', result: post})
+    } catch(err) {
+        res.status(400).json({status: '400', result: [], message: err})
+    }
+}
+
+exports.findById = async (req, res) => {
     try{
         const post = await Post.findById(req.params.postId)
         if (post != null) {
@@ -48,20 +42,18 @@ router.get('/:postId', async (req,res) => {
     } catch (err) {
         res.status(400).json({status: '400', result: [], message: err})
     }
-})
+}
 
-//delete post
-router.delete('/:postId', async (req,res) => {
+exports.deleteById = async (req, res) => {
     try{
         const removePost = await Post.remove({_id: req.params.postId})
         res.status(200).json({status: '200', result: []})
     } catch (err) {
         res.status(400).json({status: '400', result: [], message: err})
     }
-})
+}
 
-//update a specific post
-router.patch('/:postId', async (req,res) => {
+exports.updateById = async (req, res) => {
     try{
         const updatePosts = await Post.updateOne(
             { _id: req.params.postId},
@@ -71,6 +63,14 @@ router.patch('/:postId', async (req,res) => {
     } catch (err) {
         res.status(400).json({status: '400', result: [], message: err})
     }
-})
+}
 
-module.exports = router
+exports.validate = (method) => {
+  switch (method) {
+    case 'create': {
+        return [ 
+            body('email', 'Invalid email').exists().isEmail()
+        ]
+    }
+  }
+}

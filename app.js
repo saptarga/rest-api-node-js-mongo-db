@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json());
 
 // Import Post Routes 
-const postsRoute = require('./routes/post')
+const postsRoute = require('./routes/posts.route')
 app.use('/posts', postsRoute)
 
 //Default Route

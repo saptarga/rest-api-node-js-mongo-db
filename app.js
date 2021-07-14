@@ -1,8 +1,13 @@
+// importing the dependencies
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+
+// include config and connection db
 require('dotenv/config')
 require('./config/connection')
+
+// defining the Express app
 const app = express()
 
 app.use(express.json());

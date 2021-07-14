@@ -14,6 +14,6 @@ exports.logger = createLogger({
     transports: [
       new transports.File({ filename: 'logs/error.log', level: 'error' }),
       new transports.File({ filename: 'logs/combined.log' }),
-      new transports.Console({ format: format.simple() })
+      new transports.Console({ colorize: true, format: format.simple() })
     ]
   });

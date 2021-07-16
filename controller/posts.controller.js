@@ -18,10 +18,11 @@ exports.create = async (req, res) => {
 	});
 
 	try {
+		logger.info(`Create new posts created by ${req.authData.user.username}`);
 		const savePost = await post.save();
 		res.status(200).json({
 			status: "200",
-			result: savePost,
+			result: req.authData,
 		});
 	} catch (err) {
 		logger.error(`${req.originalUrl} - ${req.ip} - ${err} `);
@@ -111,7 +112,6 @@ exports.updateById = async (req, res) => {
 			result: updatePosts,
 		});
 	} catch (err) {
-		logger.error(`${req.originalUrl} - ${req.ip} - ${err} `);
 		res.status(400).json({
 			status: "400",
 			result: [],

@@ -1,25 +1,27 @@
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI2NTE0NTc3MDYzLCJ1c2VybmFtZSI6InNhcHRhcmdhIiwiZW1haWwiOiJzYXB0YXJnYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1Njc4OTAxIn0sImlhdCI6MTYyNjUxNDU3NywiZXhwIjoxNjI3MTE5Mzc3fQ.sK6BN9CGLsIyFCBLNFV9CjWHF2_qcHlCjp-L0S_kZyQ
-
 ### Generate Token
+# @name generateToken
 POST /users/generateToken HTTP/1.1
 Host: localhost:3000
+
+###
+@authToken = Bearer {{generateToken.response.body.token}}
 
 ### Get Profile
 GET /users/profile HTTP/1.1
 Host: localhost:3000
-Authorization: {{token}}
+Authorization: {{authToken}}
 
 ### Get All Posts
 GET /posts HTTP/1.1
 Host: localhost:3000
-Authorization: {{token}}
+Authorization: {{authToken}}
 
 ### Add New Posts
 POST /posts HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json
 Content-Length: 126
-Authorization: {{token}}
+Authorization: {{authToken}}
 
 {
     "title": "Six Post",
@@ -29,6 +31,6 @@ Authorization: {{token}}
 }
 
 ### Get Specific Posts
-GET /posts/60f2547141795117f83b1593 HTTP/1.1
+GET /posts/60ed7ab79e72ea5fdc36d9b5 HTTP/1.1
 Host: localhost:3000
-Authorization: {{token}}
+Authorization: {{authToken}}
